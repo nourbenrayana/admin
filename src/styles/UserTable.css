@@ -83,24 +83,19 @@
   .btn-search:hover i {
     transform: scale(1.2);
   }
-  .main-content {
-    margin-left: 280px; /* ✅ correspond à .sidebar width */
-    padding: 2rem;
-    transition: margin-left 0.3s ease;
-    flex: 1;
-    min-height: 100vh;
-    max-width: calc(100% - 280px); /* ✅ idem */
-    width: 100%;
-  }
 
 /* ====== Container ====== */
 .table-container {
-    width: 100%;
-    padding: 2rem;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
+  padding: 2rem;
+  background-color: #f9fafc; /* Comme dans .main-content */
+  min-height: 100vh;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
   
   /* ====== Header ====== */
   .table-header {
@@ -135,12 +130,38 @@
   .table-responsive {
     overflow-x: auto;
   }
-  
-  .user-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-  }
+.user-table {
+  width: 100%;
+  min-width: 800px; /* cohérent avec .card-requests-table */
+  border-collapse: collapse;
+  table-layout: fixed;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(2, 53, 129, 0.058); /* Même ombre */
+  font-size: 0.95rem; /* cohérence */
+}
+
+
+/* Ajustement des largeurs de colonnes */
+.user-table th:nth-child(1),
+.user-table td:nth-child(1) {
+  width: 20%; /* Nom */
+}
+
+.user-table th:nth-child(2),
+.user-table td:nth-child(2) {
+  width: 25%; /* Email */
+}
+
+.user-table th:nth-child(3),
+.user-table td:nth-child(3) {
+  width: 15%; /* Date de naissance */
+}
+
+.user-table th:nth-child(4),
+.user-table td:nth-child(4) {
+  width: 40%; /* Actions */
+}
   
   .user-table th, .user-table td {
     padding: 12px 15px;

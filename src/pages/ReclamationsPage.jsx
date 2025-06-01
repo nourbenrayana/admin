@@ -3,18 +3,18 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/ReclamationsPage.css';
+import MainLayout from '../components/MainLayout'; 
 
 const ReclamationsPage = () => {
   const [reclamations, setReclamations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedMessage, setSelectedMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [showStatusChangeModal, setShowStatusChangeModal] = useState(false);
   const [statusChangeMessage, setStatusChangeMessage] = useState('');
-
   const [reclamationToChange, setReclamationToChange] = useState(null);
   const [newStatusToApply, setNewStatusToApply] = useState('');
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -53,6 +53,16 @@ const ReclamationsPage = () => {
     setNewStatusToApply(newStatus);
     setShowConfirmationModal(true);
   };
+
+  const filteredReclamations = reclamations.filter(reclamation => {
+    const searchLower = searchTerm.toLowerCase();
+    return (
+      reclamation.message.toLowerCase().includes(searchLower) ||
+      (reclamation.userName && reclamation.userName.toLowerCase().includes(searchLower)) ||
+      (reclamation.type && reclamation.type.toLowerCase().includes(searchLower)) ||
+      (reclamation.status && reclamation.status.toLowerCase().includes(searchLower))
+    );
+  });
 
   const applyStatusChange = async () => {
     if (!reclamationToChange || !newStatusToApply) return;
@@ -112,14 +122,22 @@ const ReclamationsPage = () => {
   if (error) return <div className="error">{error}</div>;
 
   return (
-    <div className="reclamations-management-container">
-      <div className="main-content">
+      <div className="reclamations-management-container">
         <div className="table-container">
           <div className="table-header">
             <h2>Liste des Réclamations</h2>
+            <div className="search-box">
+              <input
+                type="text"
+                placeholder="Rechercher..."
+                className="input-search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
           </div>
 
-          {reclamations.length === 0 ? (
+          {filteredReclamations.length === 0 ? (
             <p>Aucune réclamation trouvée.</p>
           ) : (
             <table className="card-requests-table">
@@ -133,7 +151,7 @@ const ReclamationsPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {reclamations.map((reclamation) => (
+                {filteredReclamations.map((reclamation) => (
                   <tr key={reclamation['@metadata']?.['@id'] || reclamation.id || Math.random()}>
                     <td>{formatDate(reclamation.createdAt)}</td>
                     <td>{reclamation.userName}</td>
@@ -158,7 +176,7 @@ const ReclamationsPage = () => {
                       <select
                         value={reclamation.status || 'new'}
                         onChange={(e) => confirmStatusChange(reclamation, e.target.value)}
-                        className="status-select"
+                        className={`status-select status-${reclamation.status || 'new'}`}
                       >
                         {statusOptions.map(opt => (
                           <option key={opt.value} value={opt.value}>
@@ -213,7 +231,6 @@ const ReclamationsPage = () => {
           </div>
         )}
       </div>
-    </div>
   );
 };
 

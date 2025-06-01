@@ -8,9 +8,9 @@ import {
   FaChevronRight,
   FaSignOutAlt,
   FaCreditCard,
-  FaExclamationCircle // Nouvelle icône pour les réclamations
+  FaExclamationCircle
 } from 'react-icons/fa';
-import logo from '../assets/logo.jpg';
+import logo from '../assets/avatar.png';
 import '../styles/Sidebar.css';
 
 const SidebarItem = ({ icon, text, active = false, expanded, onClick }) => {
@@ -22,40 +22,41 @@ const SidebarItem = ({ icon, text, active = false, expanded, onClick }) => {
   );
 };
 
-const Sidebar = ({ sidebarOpen, toggleSidebar, activeTab, setActiveTab, setIsAuthenticated  }) => {
+const Sidebar = ({ sidebarOpen, toggleSidebar, activeTab, setIsAuthenticated }) => {
   const navigate = useNavigate();
 
-  const handleNavigation = (tab) => {
+  const handleNavigation = React.useCallback((tab) => {
     console.log('Navigating to:', tab);
-    if (setActiveTab) {
-      setActiveTab(tab);
+    // Navigation seulement si nécessaire
+    if (window.location.pathname !== getPathForTab(tab)) {
+      navigate(getPathForTab(tab));
     }
-    // Navigation
+  }, [navigate]);
+
+  const getPathForTab = (tab) => {
     switch(tab) {
-      case 'dashboard':
-        navigate('/dashboard');
-        break;
-      case 'users':
-        navigate('/user-management');
-        break;
-      case 'cardRequests':
-        navigate('/card-requests');
-        break;
-      case 'reclamations': // Nouveau cas pour les réclamations
-        navigate('/reclamations');
-        break;
-      default:
-        navigate('/dashboard');
+      case 'dashboard': return '/dashboard';
+      case 'users': return '/user-management';
+      case 'cardRequests': return '/card-requests';
+      case 'reclamations': return '/reclamations';
+      default: return '/dashboard';
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = React.useCallback(() => {
+    console.log("Déconnexion lancée");
+    // Nettoyage synchronisé avant la navigation
     localStorage.removeItem('token');
     localStorage.removeItem('userInitials');
-    setIsAuthenticated(false);
-    navigate('/login');
-  };
-  
+    
+    if (setIsAuthenticated) {
+      setIsAuthenticated(false);
+    }
+    
+    // Navigation directe sans dépendances
+    window.location.href = '/login'; // Alternative plus fiable que navigate()
+  }, [setIsAuthenticated]);
+
   return (
     <div className={`sidebar ${sidebarOpen ? 'open' : 'closed'}`}>
       <div className="sidebar-inner">
@@ -63,7 +64,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, activeTab, setActiveTab, setIsAut
           {sidebarOpen && (
             <div className="sidebar-title-container">
               <img src={logo} alt="Caixa Bank Logo" className="sidebar-logo" />
-              <h1 className="sidebar-title">Caixa Bank</h1>
+              <h1 className="sidebar-title">Admin Bank</h1>
             </div>
           )}
           <button onClick={toggleSidebar} className="sidebar-toggle" aria-label="Toggle sidebar">
@@ -86,7 +87,6 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, activeTab, setActiveTab, setIsAut
             expanded={sidebarOpen}
             onClick={() => handleNavigation('users')}
           />
-          
           <SidebarItem
             icon={<FaCreditCard />}
             text="Demandes de cartes"
@@ -94,7 +94,6 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, activeTab, setActiveTab, setIsAut
             expanded={sidebarOpen}
             onClick={() => handleNavigation('cardRequests')}
           />
-          {/* Nouvel élément pour les réclamations */}
           <SidebarItem
             icon={<FaExclamationCircle />}
             text="Réclamations"

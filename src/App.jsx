@@ -1,9 +1,10 @@
+// App.jsx
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import Sidebar from './components/Sidebar';
+import MainLayout from './components/MainLayout';
 import Dashboard from './pages/DashboardPage';
 import Login from './pages/LoginPage';
 import UserManagement from './pages/UserManagement';
@@ -13,8 +14,6 @@ import ReclamationsPage from './pages/ReclamationsPage';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState('dashboard');
   const [loading, setLoading] = useState(true);
 
   const cleanToken = (token) => token?.replace(/\s/g, '') || null;
@@ -61,25 +60,16 @@ function App() {
   return (
     <Router>
       {isAuthenticated ? (
-        <div style={{ display: 'flex' }}>
-          <Sidebar
-            sidebarOpen={sidebarOpen}
-            toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            setIsAuthenticated={setIsAuthenticated}
-          />
-          <div style={{ flex: 1 }}>
-            <Routes>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/user-management" element={<UserManagement />} />
-              <Route path="/users/:userId/accounts" element={<UserAccountsPage />} />
-              <Route path="/card-requests" element={<CardRequestsManagement />} />
-              <Route path="/reclamations" element={<ReclamationsPage />} />
-              <Route path="*" element={<Navigate to="/dashboard" replace />} />
-            </Routes>
-          </div>
-        </div>
+        <MainLayout>
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/user-management" element={<UserManagement />} />
+            <Route path="/users/:userId/accounts" element={<UserAccountsPage />} />
+            <Route path="/card-requests" element={<CardRequestsManagement />} />
+            <Route path="/reclamations" element={<ReclamationsPage />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </MainLayout>
       ) : (
         <Routes>
           <Route path="/login" element={<Login onLogin={() => setIsAuthenticated(true)} />} />
@@ -87,7 +77,6 @@ function App() {
         </Routes>
       )}
 
-      {/* Toast notifications container */}
       <ToastContainer position="top-right" autoClose={3000} />
     </Router>
   );

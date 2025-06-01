@@ -1,17 +1,13 @@
-// Dashboard.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
-import avatar from '../assets/avatar.png';
-import { FaBars, FaTimes } from 'react-icons/fa';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   LineChart, Line, PieChart, Pie, Cell, Brush
 } from 'recharts';
 import '../styles/Dashboard.css';
+import MainLayout from '../components/MainLayout';
 
-// Couleurs pour les graphiques
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
 
 function Dashboard() {
@@ -21,8 +17,6 @@ function Dashboard() {
   const [accountTypeData, setAccountTypeData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -119,30 +113,26 @@ function Dashboard() {
   );
 
   const AccountTypesChart = ({ data }) => {
-    // Fonction pour normaliser les noms de types de comptes
     const normalizeTypeName = (name) => {
       const lowerName = name.toLowerCase();
       if (lowerName.includes('courant') || lowerName.includes('current')) return 'Courant';
       if (lowerName.includes('épargne') || lowerName.includes('epargne')) return 'Épargne';
       if (lowerName.includes('business')) return 'Business';
       if (lowerName.includes('checking')) return 'Checking';
-      return name; // Retourne le nom original si aucun match
+      return name;
     };
-  
-    // Regrouper les données par type normalisé
+
     const groupedData = data.reduce((acc, item) => {
       const normalizedType = normalizeTypeName(item.name);
-      const existingItem = acc.find(i => i.name === normalizedType);
-      
-      if (existingItem) {
-        existingItem.value += item.value;
+      const existing = acc.find(i => i.name === normalizedType);
+      if (existing) {
+        existing.value += item.value;
       } else {
         acc.push({ name: normalizedType, value: item.value });
       }
-      
       return acc;
     }, []);
-  
+
     return (
       <div className="chart-container">
         <h3>Répartition des types de comptes</h3>
@@ -164,9 +154,7 @@ function Dashboard() {
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
-              <Tooltip 
-                formatter={(value) => [`${value}%`, 'Pourcentage']}
-              />
+              <Tooltip formatter={(value) => [`${value}`, 'Comptes']} />
               <Legend />
             </PieChart>
           </ResponsiveContainer>
@@ -191,42 +179,18 @@ function Dashboard() {
     );
   }
 
-  return (
-    <div className="dashboard-container">
-      {mobileSidebarOpen && <div className="mobile-sidebar-backdrop" onClick={() => setMobileSidebarOpen(false)} />}
-      <Sidebar
-        sidebarOpen={sidebarOpen}
-        toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-        activeTab="dashboard"
-      />
-      <div className="main-content">
-        <header className="header">
-          <div className="header-left">
-            <button onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)} className="mobile-sidebar-button">
-              {mobileSidebarOpen ? <FaTimes /> : <FaBars />}
-            </button>
-            <h1 className="header-title">Tableau de bord Administrateur</h1>
-          </div>
-          <div className="user-controls">
-            <div className="user-profile">
-              <img src={avatar} alt="Admin" />
-              {sidebarOpen && <span className="user-name">Admin</span>}
-            </div>
-          </div>
-        </header>
-        <main className="content-area">
-          <div className="content-inner">
-            <div className="charts-grid">
-              <MonthlySignupsChart data={monthlyData} />
-              <ActivityLineChart data={activityData} />
-              <TransactionsChart data={transactionData} />
-              <AccountTypesChart data={accountTypeData} />
-            </div>
-          </div>
-        </main>
-      </div>
+
+return (
+  <div className="dashboard-content">
+    <div className="charts-grid">
+      <MonthlySignupsChart data={monthlyData} />
+      <ActivityLineChart data={activityData} />
+      <TransactionsChart data={transactionData} />
+      <AccountTypesChart data={accountTypeData} />
     </div>
-  );
+  </div>
+);
+
 }
 
 export default Dashboard;

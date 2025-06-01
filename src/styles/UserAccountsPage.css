@@ -1,36 +1,10 @@
 /* UserAccountsPage.css */
 
-/* Variables pour les couleurs et les espacements */
-:root {
-  --primary-color: #7EB4FF;
-  --secondary-color: #7EB4FF;
-  --success-color: #4cc9f0;
-  --danger-color: #f72585;
-  --light-color: #f8f9fa;
-  --dark-color: #022c56;
-  --gray-color: #6c757d;
-  --border-radius: 8px;
-  --box-shadow: 0 4px 6px rgba(2, 53, 129, 0.058);
-  --transition: all 0.3s ease;
-}
-
-/* Reset et styles de base */
-.page-container {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f7fa;
+.content-area {
+  padding: 2rem;
   min-height: 100vh;
-  padding: 2rem;
-  padding-left: calc(2rem + 250px); /* Ajoute ici la largeur de la sidebar */
-  transition: var(--transition);
-}
-
-.content-box {
-  background-color: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  background-color: #f8fafc;
+  transition: margin 0.3s ease;
 }
 
 .page-header {
@@ -38,176 +12,167 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-  flex-wrap: wrap;
-  gap: 1rem;
 }
 
 .page-header h1 {
-  color: var(--dark-color);
-  margin: 0;
   font-size: 1.8rem;
   font-weight: 600;
+  color: #1e293b;
 }
 
-.message {
-  text-align: center;
-  color: var(--gray-color);
-  padding: 1rem;
-  font-size: 1.1rem;
-}
-
-/* Styles des boutons */
 .back-button {
-  background-color: var(--gray-color);
+  background-color: #3b82f6;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
-  border-radius: var(--border-radius);
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: var(--transition);
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  transition: background-color 0.2s ease;
 }
 
 .back-button:hover {
-  background-color: var(--dark-color);
-  transform: translateY(-1px);
+  background-color: #2563eb;
+}
+
+.accounts-container {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.accounts-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.accounts-table thead {
+  background-color: #f1f5f9;
+}
+
+.accounts-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #475569;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.accounts-table td {
+  padding: 1rem;
+  color: #334155;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.account-summary {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.account-summary:hover {
+  background-color: #f8fafc;
 }
 
 .toggle-transactions {
-  background-color: var(--primary-color);
-  color: white;
+  background-color: #e0e7ff;
+  color: #4f46e5;
   border: none;
   padding: 0.5rem 1rem;
-  border-radius: var(--border-radius);
+  border-radius: 6px;
+  font-weight: 500;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: var(--transition);
+  transition: all 0.2s ease;
 }
 
 .toggle-transactions:hover {
-  background-color: var(--secondary-color);
-  transform: translateY(-1px);
+  background-color: #c7d2fe;
 }
 
-/* Styles des tableaux */
-.accounts-container {
-  overflow-x: auto;
-}
-
-.accounts-table, .transactions-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1rem;
-}
-
-.accounts-table thead, .transactions-table thead {
-  background-color: var(--primary-color);
-  border-radius: var(--border-radius);
-  color: white;
-}
-
-.accounts-table th, 
-.accounts-table td, 
-.transactions-table th, 
-.transactions-table td {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.accounts-table th, .transactions-table th {
-  font-weight: 600;
-}
-
-.accounts-table tbody tr:not(.transactions-row):hover {
-  background-color: rgba(67, 97, 238, 0.05);
-  cursor: pointer;
-}
-
-/* Badges de statut */
 .status-badge {
   display: inline-block;
-  padding: 0.35rem 0.65rem;
-  border-radius: 50rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
   font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: capitalize;
+  font-weight: 500;
 }
 
 .status-actif {
-  background-color: rgba(76, 201, 240, 0.2);
-  color: #0a9396;
+  background-color: #dcfce7;
+  color: #166534;
 }
 
 .status-inactif {
-  background-color: rgba(247, 37, 133, 0.2);
-  color: var(--danger-color);
+  background-color: #fee2e2;
+  color: #991b1b;
 }
 
-/* Section des transactions */
 .transactions-row {
-  background-color: #f8f9fa;
+  background-color: #f8fafc;
 }
 
 .transactions-section {
   padding: 1rem;
-  background-color: white;
-  border-radius: 0 0 var(--border-radius) var(--border-radius);
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.05);
 }
 
 .transactions-table {
-  background-color: white;
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.transactions-table tbody tr:hover {
-  background-color: rgba(76, 201, 240, 0.05);
+.transactions-table th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 500;
+  color: #64748b;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: #f1f5f9;
 }
 
-/* Animation de chargement */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.transactions-table td {
+  padding: 0.75rem 1rem;
+  color: #334155;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.875rem;
 }
 
 .message {
-  animation: fadeIn 0.5s ease;
+  color: #64748b;
+  text-align: center;
+  padding: 2rem;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .page-container {
-    padding: 1rem;
-  }
-  
-  .content-box {
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .content-area {
+    margin-left: 0;
     padding: 1rem;
   }
   
   .accounts-table th, 
-  .accounts-table td, 
-  .transactions-table th, 
-  .transactions-table td {
-    padding: 0.75rem 0.5rem;
-    font-size: 0.9rem;
-  }
-  
-  .page-header h1 {
-    font-size: 1.5rem;
+  .accounts-table td {
+    padding: 0.75rem;
   }
 }
 
-@media (max-width: 480px) {
-  .page-header {
-    flex-direction: column;
-    align-items: flex-start;
+/* Animation for expanding transactions */
+.transactions-section {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  
-  .back-button {
-    width: 100%;
-    justify-content: center;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

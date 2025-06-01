@@ -48,11 +48,56 @@
     width: 250px;
   }
   
-  .card-requests-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
+.card-requests-table {
+  width: 100%;
+  min-width: 800px; /* Ajout pour cohérence */
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(2, 53, 129, 0.058);
+}
+
+/* Ajustement des largeurs de colonnes */
+/* Colonne 1 (Nom) */
+.card-requests-table th:nth-child(1),
+.card-requests-table td:nth-child(1) {
+  width: 20%; /* Inchangé */
+}
+
+/* Colonne 2 (CPF) */
+.card-requests-table th:nth-child(2),
+.card-requests-table td:nth-child(2) {
+  width: 15%; /* Inchangé */
+}
+
+/* Colonne 3 (Type de carte) - Réduite */
+.card-requests-table th:nth-child(3),
+.card-requests-table td:nth-child(3) {
+  width: 10%; /* Réduit de 15% à 10% */
+}
+
+/* Colonne 4 (Date de demande) */
+.card-requests-table th:nth-child(4),
+.card-requests-table td:nth-child(4) {
+  width: 15%; /* Inchangé */
+}
+
+/* Colonne 5 (Statut) */
+.card-requests-table th:nth-child(5),
+.card-requests-table td:nth-child(5) {
+  width: 20%; /* Augmenté de 15% à 20% */
+}
+
+/* Colonne 6 (Actions) */
+.card-requests-table th:nth-child(6),
+.card-requests-table td:nth-child(6) {
+  width: 20%; /* Réduit de 40% à 20% */
+}
+  .card-requests-table td:nth-child(6) {
+  display: flex;
+  gap: 8px; /* Espacement entre les boutons */
+  flex-wrap: wrap; /* Permet le retour à la ligne si nécessaire */
+}
   .card-requests-table th, .card-requests-table td {
     padding: 12px 15px;
     text-align: left;

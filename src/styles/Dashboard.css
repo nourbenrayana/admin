@@ -51,11 +51,31 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.2;
 }
-
 .dashboard-container {
   display: flex;
-  min-height: 100vh;
+  flex-direction: row;
   width: 100%;
+  min-height: 100vh;
+  padding: 0 1.5rem;
+  background-color: var(--background);
+}
+
+
+
+/* Pour les écrans moyens */
+@media (max-width: 1440px) {
+  .dashboard-container {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+}
+
+/* Pour les petits écrans */
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+    padding: 0;
+  }
 }
 
 .user-profile {
@@ -71,30 +91,35 @@ h1, h2, h3, h4, h5, h6 {
 
 
 .main-content {
-  margin-left: 280px; /* ✅ correspond à .sidebar width */
-  padding: 2rem;
-  transition: margin-left 0.3s ease;
   flex: 1;
+  transition: margin-left 0.3s ease;
   min-height: 100vh;
-  max-width: calc(100% - 280px); /* ✅ idem */
   width: 100%;
 }
 
+.main-content.sidebar-open {
+  margin-left: 280px; /* Largeur du sidebar */
+}
+
+.main-content.sidebar-closed {
+  margin-left: 0;
+}
+
+
+
 .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #ffffff;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 100;
-  display: flex; /* ✅ Ajout essentiel */
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.2rem 7.5rem;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
-  border-radius: var(--radius-sm); /* Optionnel */
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border-bottom: 1px solid #eaeaea;
+  max-width: 1280px; /* correspond à mainLayout */
+  margin: 0 auto;     /* centré horizontalement */
 }
 
 .header.scrolled {
@@ -152,8 +177,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .user-avatar img {
-  width: 20%;
-  height: 50%;
+  width: 40px;
+  height: 40px;
   object-fit: cover; /* Maintient les proportions sans déformation */
 }
 
@@ -234,15 +259,13 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-dark);
 }
 
-.content-area {
-  margin-top: 2rem;
-}
-
 .content-inner {
   background: var(--white);
   padding: 2rem;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
+  width: 100%;
+  max-width: 1000px;
 }
 
 .btn {
@@ -282,19 +305,20 @@ h1, h2, h3, h4, h5, h6 {
 
 .charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); /* Augmenté de 400px */
+  gap: 25px; /* Espacement accru */
   margin-top: 30px;
+  justify-content: center;
 }
 
 .chart-container {
   background: white;
   border-radius: 8px;
-  padding: 20px;
+  padding: 25px; /* Augmenté de 20px */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s;
+  min-height: 400px; /* Hauteur minimale garantie */
 }
-
 .chart-container:hover {
   transform: translateY(-5px);
 }
@@ -310,6 +334,17 @@ h1, h2, h3, h4, h5, h6 {
 .recharts-surface {
   overflow: visible;
 }
+.recharts-wrapper {
+  width: 100% !important;
+  height: 350px !important; /* Hauteur fixe plus grande */
+}
+
+/* Ajuster les éléments textuels */
+.chart-container h3 {
+  font-size: 18px; /* Taille de police augmentée */
+  margin-bottom: 20px;
+}
+
 
 @media (max-width: 768px) {
   .charts-grid {
@@ -337,6 +372,7 @@ h1, h2, h3, h4, h5, h6 {
     top: 0;
     left: -280px;
     width: 280px;
+    flex-shrink: 0;
     height: 100%;
     background-color: var(--white);
     box-shadow: var(--shadow);
@@ -347,4 +383,84 @@ h1, h2, h3, h4, h5, h6 {
   .sidebar.open {
     left: 0;
   }
+}
+/* Styles pour l'en-tête */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-header h1 {
+  font-size: 1.8rem;
+  color: var(--primary-dark);
+  margin: 0;
+}
+
+.welcome-message {
+  font-weight: 500;
+  color: var(--text-medium);
+}
+
+/* Grille de statistiques bancaires */
+.bank-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.bank-stat-card {
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.bank-stat-card h3 {
+  font-size: 1rem;
+  color: var(--text-medium);
+  margin-bottom: 0.5rem;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0.5rem 0;
+}
+
+.stat-change {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.stat-change.positive {
+  color: var(--success);
+}
+
+.stat-change.negative {
+  color: var(--danger);
+}
+
+/* Améliorations des cartes de graphiques */
+.chart-container {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.chart-container h3 {
+  color: var(--primary-dark);
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  font-weight: 600;
 }

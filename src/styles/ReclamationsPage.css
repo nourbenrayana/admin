@@ -54,20 +54,131 @@
   border-color: #3b82f6;
   outline: none;
 }
-
+/* Réclamations - Tableau principal */
 .card-requests-table {
   width: 100%;
+  min-width: 800px; /* Harmonisation avec UserAccountsPage */
   border-collapse: collapse;
   font-size: 0.95rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(2, 53, 129, 0.058); /* Même ombre */
+  table-layout: fixed; /* Pour une répartition uniforme */
 }
 
-.card-requests-table th,
-.card-requests-table td {
-  padding: 14px 16px;
+/* En-têtes de colonnes */
+.card-requests-table th {
+  background-color: #7EB4FF; /* Couleur primaire comme UserAccountsPage */
+  color: white;
+  font-weight: 600;
+  padding: 1rem;
   text-align: left;
-  border-bottom: 1px solid #e5e7eb;
 }
 
+/* Cellules */
+.card-requests-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Répartition des colonnes (ajustez selon vos besoins) */
+.card-requests-table th:nth-child(1),
+.card-requests-table td:nth-child(1) {
+  width: 15%; /* ID */
+}
+
+.card-requests-table th:nth-child(2),
+.card-requests-table td:nth-child(2) {
+  width: 20%; /* Utilisateur */
+}
+
+.card-requests-table th:nth-child(3),
+.card-requests-table td:nth-child(3) {
+  width: 25%; /* Sujet/Message */
+}
+
+.card-requests-table th:nth-child(4),
+.card-requests-table td:nth-child(4) {
+  width: 15%; /* Statut */
+}
+
+.card-requests-table th:nth-child(5),
+.card-requests-table td:nth-child(5) {
+  width: 15%; /* Date */
+}
+
+.card-requests-table th:nth-child(6),
+.card-requests-table td:nth-child(6) {
+  width: 10%; /* Actions */
+}
+
+/* Comportement au survol */
+.card-requests-table tr:hover {
+  background-color: rgba(126, 180, 255, 0.05); /* Teinte primaire */
+}
+
+/* Styles existants conservés mais ajustés */
+.td-message {
+  max-width: 100%; /* Ajustement */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Badges - Adaptation aux nouvelles couleurs */
+.status-new {
+  background-color: rgba(126, 180, 255, 0.2); /* Teinte primaire */
+  color: #022c56;
+}
+
+.status-in_progress {
+  background-color: rgba(76, 201, 240, 0.2); /* Teinte success */
+  color: #0a9396;
+}
+
+.status-resolved {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #065f46;
+}
+
+.status-rejected {
+  background-color: rgba(247, 37, 133, 0.2); /* Teinte danger */
+  color: #f72585;
+}
+
+/* Pagination - Harmonisation */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+  gap: 0.5rem;
+}
+
+.pagination button {
+  padding: 0.5rem 0.9rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #e0e0e0;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pagination button.active {
+  background-color: #7EB4FF; /* Couleur primaire */
+  color: white;
+}
+
+/* Container principal - Ajustement */
+.reclamations-management-container {
+  background-color: #f5f7fa; /* Comme UserAccountsPage */
+}
+
+.table-container {
+  max-width: 1200px; /* Limite de largeur */
+  margin: 0 auto; /* Centrage */
+  padding: 2rem; /* Espacement cohérent */
+}
 .card-requests-table th {
   background-color: #f1f5f9;
   font-weight: 600;
@@ -442,4 +553,90 @@
   padding: 8px 12px;
   cursor: pointer;
   border-radius: 4px;
+}
+/* Ajoutez ces styles pour la barre de recherche */
+.search-box {
+  position: relative;
+  margin-left: auto;
+}
+
+.input-search {
+  padding: 10px 16px;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  width: 260px;
+  font-size: 0.95rem;
+  transition: border 0.2s ease-in-out;
+}
+
+.input-search:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+/* Styles pour les différents statuts */
+.status-new {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.status-in_progress {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.status-resolved {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-rejected {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.status-closed {
+  background-color: #e5e7eb;
+  color: #4b5563;
+}
+
+/* Amélioration du select pour les statuts */
+.status-select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+}
+
+/* Styles dynamiques pour les options */
+.status-select option {
+  padding: 8px;
+}
+
+.status-select option[value="new"] {
+  background-color: #dbeafe;
+}
+
+.status-select option[value="in_progress"] {
+  background-color: #fef3c7;
+}
+
+.status-select option[value="resolved"] {
+  background-color: #dcfce7;
+}
+
+.status-select option[value="rejected"] {
+  background-color: #fee2e2;
+}
+
+.status-select option[value="closed"] {
+  background-color: #e5e7eb;
 }
